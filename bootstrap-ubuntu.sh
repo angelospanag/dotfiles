@@ -24,7 +24,7 @@ sudo snap install btop
 curl -fsSL https://claude.ai/install.sh | bash
 
 # Install packages
-sudo apt update -y && sudo apt install -y cloc fd-find fzf git golang-go jq lazygit mise neovim nmap python3.14-pip python3.14-venv pwgen ripgrep starship tree
+sudo apt update -y && sudo apt install -y bat cloc fd-find fzf git golang-go jq lazygit mise neovim nmap python3.14-pip python3.14-venv pwgen ripgrep starship tree
 
 # Lazyvim
 mv ~/.config/nvim{,.bak}
