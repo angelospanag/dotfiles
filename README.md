@@ -6,21 +6,21 @@ My personal dotfiles for macOS and Linux.
 
 ### macOS
 
-\```bash
+```bash
 git clone https://github.com/angelospanag/dotfiles ~/dotfiles
 cd ~/dotfiles
 ./bootstrap-macos.sh
 ./install.sh
-\```
+```
 
 ### Linux (Ubuntu)
 
-\```bash
+```bash
 git clone https://github.com/angelospanag/dotfiles ~/dotfiles
 cd ~/dotfiles
 ./bootstrap-ubuntu.sh
 ./install.sh
-\```
+```
 
 ## Contents
 
