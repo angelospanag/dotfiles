@@ -1,4 +1,5 @@
 tap "oven-sh/bun"
+brew "bat"
 brew "btop"
 brew "ca-certificates"
 brew "cloc"
