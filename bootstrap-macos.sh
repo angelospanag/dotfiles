@@ -14,11 +14,32 @@ mise use --global \
   neovim python@3.14 restish ripgrep ruff sqlc \
   starship uv yt-dlp
 
-# Packages and apps (Brewfile handles remaining tools + casks + vscode extensions)
-brew bundle install
+# CLI tools that stay in brew
+brew install btop ca-certificates cloc curl exiftool git gnupg ipinfo-cli mise nmap pwgen tree
 
-# Install remaining CLI tools brew still handles
-brew install exiftool git gnupg nmap pwgen
+# GUI apps
+brew install --cask brave-browser docker-desktop draw-things font-fira-code-nerd-font \
+  ghostty goland keepassxc netnewswire pearcleaner pycharm signal spotify \
+  visual-studio-code vlc wireshark-app
+
+# VS Code extensions
+code --install-extension anthropic.claude-code
+code --install-extension catppuccin.catppuccin-vsc
+code --install-extension catppuccin.catppuccin-vsc-icons
+code --install-extension charliermarsh.ruff
+code --install-extension golang.go
+code --install-extension hverlin.mise-vscode
+code --install-extension ms-python.debugpy
+code --install-extension ms-python.python
+code --install-extension ms-python.vscode-pylance
+code --install-extension ms-python.vscode-python-envs
+code --install-extension redhat.vscode-yaml
+code --install-extension repreng.csv
+code --install-extension tamasfe.even-better-toml
+code --install-extension yzhang.markdown-all-in-one
+
+# gopls
+go install golang.org/x/tools/gopls@latest
 
 # LazyVim
 mv ~/.config/nvim{,.bak}
