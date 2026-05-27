@@ -1,22 +1,31 @@
 #!/bin/bash
+
 set -euo pipefail
 
 # Upgrade current packages
 sudo apt update && sudo apt upgrade -y
 
-# Mise
+# Install mise via apt
 sudo install -dm 755 /etc/apt/keyrings
 curl -fSs https://mise.jdx.dev/gpg-key.pub | sudo tee /etc/apt/keyrings/mise-archive-keyring.asc 1> /dev/null
 echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.asc] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
+sudo apt update -y
+sudo apt install -y mise
 
-# Go repo
-sudo add-apt-repository -y ppa:longsleep/golang-backports
+# Activate mise for this session
+eval "$(mise activate bash)"
 
-# Python repo
-sudo add-apt-repository -y ppa:deadsnakes/ppa
+# Install CLI tools via mise
+mise use --global \
+  aqua:boyter/scc bat bun fd ffmpeg fzf \
+  github-cli go golangci-lint hugo jq lazygit \
+  neovim python@3.14 restish ripgrep ruff sqlc \
+  starship uv yt-dlp
+
+# gopls
+go install golang.org/x/tools/gopls@latest
 
 # VS Code repo
-echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
 sudo apt-get install -y wget gpg apt-transport-https
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc \
   | gpg --dearmor > /tmp/packages.microsoft.gpg
@@ -25,21 +34,12 @@ sudo install -D -o root -g root -m 644 /tmp/packages.microsoft.gpg \
 echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" \
   | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
 rm -f /tmp/packages.microsoft.gpg
-
-# Bun
-curl -fsSL https://bun.com/install | bash
-
-# btop
-sudo snap install btop
-
-# Claude Code
-curl -fsSL https://claude.ai/install.sh | bash
-
-# Install packages
 sudo apt update -y
+sudo apt install -y code
+
+# System tools that stay in apt
 sudo DEBIAN_FRONTEND=noninteractive apt install -y \
-  bat cloc code fd-find fzf git golang-go jq lazygit mise neovim nmap \
-  python3.14-pip python3.14-venv pwgen ripgrep starship tree
+  exiftool git gnupg nmap pwgen
 
 # VS Code extensions
 TARGET_USER="${SUDO_USER:-$USER}"
@@ -64,20 +64,13 @@ for ext in "${EXTENSIONS[@]}"; do
     || echo "Failed to install: $ext"
 done
 
-# Lazyvim
-[ -d ~/.config/nvim ]       && mv ~/.config/nvim{,.bak}
-[ -d ~/.local/share/nvim ]  && mv ~/.local/share/nvim{,.bak}
-[ -d ~/.local/state/nvim ]  && mv ~/.local/state/nvim{,.bak}
-[ -d ~/.cache/nvim ]        && mv ~/.cache/nvim{,.bak}
+# LazyVim
+[ -d ~/.config/nvim ] && mv ~/.config/nvim{,.bak}
+[ -d ~/.local/share/nvim ] && mv ~/.local/share/nvim{,.bak}
+[ -d ~/.local/state/nvim ] && mv ~/.local/state/nvim{,.bak}
+[ -d ~/.cache/nvim ] && mv ~/.cache/nvim{,.bak}
 git clone https://github.com/LazyVim/starter ~/.config/nvim
 rm -rf ~/.config/nvim/.git
-
-# Python - uv
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Ruff
-uv tool install ruff
-uv tool update-shell
 
 # Generate new SSH keys
 ssh-keygen -t ed25519 -C "angelospanag@protonmail.com" -f ~/.ssh/id_ed25519 -N ""
