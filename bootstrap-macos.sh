@@ -15,7 +15,7 @@ mise use --global \
   starship uv yt-dlp
 
 # CLI tools that stay in brew
-brew install btop ca-certificates cloc curl exiftool git gnupg ipinfo-cli mise nmap pwgen tree
+brew install exiftool git gnupg nmap pwgen
 
 # GUI apps
 brew install --cask brave-browser docker-desktop draw-things font-fira-code-nerd-font \
