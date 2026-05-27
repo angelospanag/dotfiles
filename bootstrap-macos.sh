@@ -3,13 +3,24 @@
 # Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Packages and apps
+# Install mise via brew
+brew install mise
+eval "$(mise activate bash)"
+
+# Install CLI tools via mise
+mise use --global \
+  aqua:boyter/scc bat bun fd ffmpeg fzf \
+  github-cli go golangci-lint hugo jq lazygit \
+  neovim python@3.14 restish ripgrep ruff sqlc \
+  starship uv yt-dlp
+
+# Packages and apps (Brewfile handles remaining tools + casks + vscode extensions)
 brew bundle install
 
-# Bun
-brew install oven-sh/bun/bun
+# Install remaining CLI tools brew still handles
+brew install exiftool git gnupg nmap pwgen
 
-# Lazyvim
+# LazyVim
 mv ~/.config/nvim{,.bak}
 mv ~/.local/share/nvim{,.bak}
 mv ~/.local/state/nvim{,.bak}
