@@ -24,13 +24,12 @@ cd ~/dotfiles
 
 ## Contents
 
-| File | Description |
-|------|-------------|
-| `.zshrc` | Zsh config, aliases, environment variables |
-| `.gitconfig` | Git config with GPG commit signing |
-| `.hushlogin` | Suppress console login message |
-| `starship.toml` | Starship prompt config |
-| `Brewfile` | Homebrew packages, apps and VS Code extensions |
-| `install.sh` | Symlinks all dotfiles to their correct locations |
-| `bootstrap-macos.sh` | macOS machine setup |
-| `bootstrap-ubuntu.sh` | Ubuntu machine setup |
+| File                  | Description                                      |
+| --------------------- | ------------------------------------------------ |
+| `.zshrc`              | Zsh config, aliases, environment variables       |
+| `.gitconfig`          | Git config with GPG commit signing               |
+| `.hushlogin`          | Suppress console login message                   |
+| `starship.toml`       | Starship prompt config                           |
+| `install.sh`          | Symlinks all dotfiles to their correct locations |
+| `bootstrap-macos.sh`  | macOS machine setup                              |
+| `bootstrap-ubuntu.sh` | Ubuntu machine setup                             |
