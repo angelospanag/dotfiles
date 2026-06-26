@@ -45,6 +45,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y \
 TARGET_USER="${SUDO_USER:-$USER}"
 EXTENSIONS=(
   anthropic.claude-code
+  biomejs.biome
   catppuccin.catppuccin-vsc
   catppuccin.catppuccin-vsc-icons
   charliermarsh.ruff

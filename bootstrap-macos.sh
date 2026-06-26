@@ -24,6 +24,7 @@ brew install --cask brave-browser docker-desktop draw-things font-fira-code-nerd
 
 # VS Code extensions
 code --install-extension anthropic.claude-code
+code --install-extension biomejs.biome
 code --install-extension catppuccin.catppuccin-vsc
 code --install-extension catppuccin.catppuccin-vsc-icons
 code --install-extension charliermarsh.ruff
