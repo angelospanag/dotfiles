@@ -1,4 +1,4 @@
-alias up="brew update && brew upgrade --greedy && brew autoremove && brew cleanup --prune=all && mise upgrade"
+alias up="brew update && brew upgrade -y --greedy && brew autoremove && brew cleanup --prune=all && mise upgrade"
 alias python="python3"
 alias myip="curl ifconfig.me"
 

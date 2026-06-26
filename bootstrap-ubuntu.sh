@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -euo pipefail
 
 # Upgrade current packages
@@ -39,7 +38,7 @@ sudo apt install -y code
 
 # System tools that stay in apt
 sudo DEBIAN_FRONTEND=noninteractive apt install -y \
-  exiftool git gnupg nmap pwgen
+  libimage-exiftool-perl git gnupg nmap pwgen
 
 # VS Code extensions
 TARGET_USER="${SUDO_USER:-$USER}"
@@ -50,11 +49,15 @@ EXTENSIONS=(
   catppuccin.catppuccin-vsc-icons
   charliermarsh.ruff
   golang.go
+  hashicorp.terraform
   hverlin.mise-vscode
+  ms-azuretools.vscode-containers
+  ms-ossdata.vscode-pgsql
   ms-python.debugpy
   ms-python.python
   ms-python.vscode-pylance
   ms-python.vscode-python-envs
+  redhat.vscode-xml
   redhat.vscode-yaml
   repreng.csv
   tamasfe.even-better-toml
