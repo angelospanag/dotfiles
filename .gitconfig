@@ -1,0 +1,8 @@
+[user]
+	email = angelospanag@protonmail.com
+	name = Angelos Panagiotopoulos
+	signingkey = 5699AFC921BB4A92
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
