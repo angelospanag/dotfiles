@@ -1,13 +1,33 @@
-autoload -Uz compinit && compinit
+# If not running interactively, don't do anything
+case $- in
+  *i*) ;;
+    *) return;;
+esac
 
-alias up="brew update && brew upgrade -y --greedy && brew autoremove && brew cleanup --prune=all && mise upgrade && mise prune -y"
+# History
+HISTCONTROL=ignoreboth
+HISTSIZE=10000
+HISTFILESIZE=20000
+shopt -s histappend
+shopt -s checkwinsize
+
+# Completion
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+alias up="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && mise upgrade && mise prune -y"
 alias myip='curl -s ifconfig.me; echo'
 
 # Go binaries (gopls and friends land here)
 export PATH="$HOME/go/bin:$PATH"
 
 # Enable signing commits from console
-export GPG_TTY=$TTY
+export GPG_TTY=$(tty)
 
 # Editor
 export EDITOR=nvim
@@ -30,9 +50,6 @@ git-gone() {
     xargs -r git branch -d
 }
 
-# macOS: list saved Wi-Fi networks
-alias wifi-list="networksetup -listpreferredwirelessnetworks en0"
-
 # Extract audio from a video URL
 ytmp3() {
   yt-dlp -x --audio-format mp3 --audio-quality 0 "$1"
@@ -40,8 +57,9 @@ ytmp3() {
 
 # Nuke package manager caches
 nuke-caches() {
-  read -q "REPLY?Nuke uv, pnpm, bun, and go caches? [y/N] " || return 1
+  read -r -n 1 -p "Nuke uv, pnpm, bun, and go caches? [y/N] " REPLY
   echo
+  [[ $REPLY == [yY] ]] || return 1
   command -v uv   >/dev/null && uv cache clean
   command -v pnpm >/dev/null && rm -rf "$(pnpm store path)" && pnpm cache delete 2>/dev/null
   command -v bun  >/dev/null && rm -rf "$HOME/.bun/install/cache"
@@ -51,13 +69,12 @@ nuke-caches() {
 
 # Telemetry off
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-export HOMEBREW_NO_ANALYTICS=1
 export NEXT_TELEMETRY_DISABLED=1
 export TELEMETRY_DISABLED=1
 export GH_TELEMETRY=false
 
 # Mise
-eval "$(mise activate zsh)"
+eval "$(mise activate bash)"
 
 # Starship
-eval "$(starship init zsh)"
+eval "$(starship init bash)"

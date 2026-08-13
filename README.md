@@ -27,6 +27,7 @@ cd ~/dotfiles
 | File                  | Description                                      |
 | --------------------- | ------------------------------------------------ |
 | `.zshrc`              | Zsh config, aliases, environment variables       |
+| `.bashrc`             | Bash config for Ubuntu, mirrors `.zshrc`         |
 | `.gitconfig`          | Git config with GPG commit signing               |
 | `.hushlogin`          | Suppress console login message                   |
 | `starship.toml`       | Starship prompt config                           |
