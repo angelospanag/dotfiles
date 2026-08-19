@@ -1,5 +1,8 @@
 autoload -Uz compinit && compinit
 
+# Force emacs keybindings so Ctrl+R (history search) works
+bindkey -e
+
 alias up="brew update && brew upgrade -y --greedy && brew autoremove && brew cleanup --prune=all && mise upgrade && mise prune -y"
 alias myip='curl -s ifconfig.me; echo'
 
