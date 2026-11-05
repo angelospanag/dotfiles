@@ -19,7 +19,7 @@ mise use --global \
   starship uv yt-dlp
 
 # CLI tools that stay in brew
-brew install exiftool git gnupg nmap podman pwgen
+brew install curl exiftool git gnupg nmap openssh podman pwgen
 
 # GUI apps
 brew install --cask adguard font-fira-code-nerd-font \

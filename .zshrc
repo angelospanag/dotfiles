@@ -9,6 +9,9 @@ alias myip='curl -s ifconfig.me; echo'
 # Go binaries (gopls and friends land here)
 export PATH="$HOME/go/bin:$PATH"
 
+# Homebrew curl (keg-only, so not linked into PATH by default)
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+
 # Enable signing commits from console
 export GPG_TTY=$TTY
 
