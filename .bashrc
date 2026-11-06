@@ -55,15 +55,53 @@ ytmp3() {
   yt-dlp -x --audio-format mp3 --audio-quality 0 "$1"
 }
 
+# Total size of the given paths in KB
+_nuke_kb() {
+  du -sk "$@" 2>/dev/null | awk '{ total += $1 } END { print total + 0 }'
+}
+
+# Print space freed: label, size before cleaning in KB, then the cleaned paths
+_nuke_report() {
+  local label=$1 before=$2 after
+  shift 2
+  after=$(_nuke_kb "$@")
+  awk -v label="$label" -v kb="$((before - after))" 'BEGIN {
+    if (kb >= 1048576) printf "%-6s %.1f GB\n", label, kb / 1048576
+    else printf "%-6s %.1f MB\n", label, kb / 1024
+  }'
+}
+
 # Nuke package manager caches
 nuke-caches() {
-  read -r -n 1 -p "Nuke uv, pnpm, bun, and go caches? [y/N] " REPLY
+  read -r -n 1 -p "Nuke uv, pnpm, bun, go, and cargo caches? [y/N] " REPLY
   echo
   [[ $REPLY == [yY] ]] || return 1
-  command -v uv   >/dev/null && uv cache clean
-  command -v pnpm >/dev/null && rm -rf "$(pnpm store path)" && pnpm cache delete 2>/dev/null
-  command -v bun  >/dev/null && rm -rf "$HOME/.bun/install/cache"
-  command -v go   >/dev/null && go clean -cache -modcache -testcache -fuzzcache
+  local dir dir2 before
+  if command -v uv >/dev/null; then
+    dir=$(uv cache dir); before=$(_nuke_kb "$dir")
+    uv cache clean >/dev/null
+    _nuke_report uv "$before" "$dir"
+  fi
+  if command -v pnpm >/dev/null; then
+    dir=$(pnpm store path); before=$(_nuke_kb "$dir")
+    rm -rf "$dir" && pnpm cache delete >/dev/null 2>&1
+    _nuke_report pnpm "$before" "$dir"
+  fi
+  if command -v bun >/dev/null; then
+    dir="$HOME/.bun/install/cache"; before=$(_nuke_kb "$dir")
+    rm -rf "$dir"
+    _nuke_report bun "$before" "$dir"
+  fi
+  if command -v go >/dev/null; then
+    dir=$(go env GOCACHE); dir2=$(go env GOMODCACHE); before=$(_nuke_kb "$dir" "$dir2")
+    go clean -cache -modcache -testcache -fuzzcache
+    _nuke_report go "$before" "$dir" "$dir2"
+  fi
+  if command -v cargo >/dev/null; then
+    dir="${CARGO_HOME:-$HOME/.cargo}/registry"; dir2="${CARGO_HOME:-$HOME/.cargo}/git"; before=$(_nuke_kb "$dir" "$dir2")
+    rm -rf "$dir" "$dir2"
+    _nuke_report cargo "$before" "$dir" "$dir2"
+  fi
   echo "Caches cleared."
 }
 
